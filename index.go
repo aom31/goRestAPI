@@ -4,6 +4,7 @@ import (
 	"example/goRestAPI/model"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -61,6 +62,6 @@ func main() {
 		db.Save(&updateUser)
 		c.JSON(200, updateUser)
 	})
-
+	r.Use(cors.Default())
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
