@@ -2,9 +2,7 @@ package main
 
 import (
 	"example/goRestAPI/model"
-	"net/http"
 
-	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -16,11 +14,11 @@ func main() {
 		panic("failed to connect database")
 	}
 
-	r := gin.Default()
-	r.GET("/users", func(c *gin.Context) {
-		var users []model.User
-		db.Find(&users)
-		c.JSON(http.StatusOK, users)
-	})
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	// Migrate the schema
+	db.AutoMigrate(&model.User{})
+
+	// Create
+	db.Create(&model.User{Username: "aom31", Fullname: "thamakorn", Password: "aom1234", Email: "mamjia@gmail.com"})
+	db.Create(&model.User{Username: "a1345", Fullname: "kornaoka", Password: "1234", Email: "thamakorn@gmail.com"})
+
 }
